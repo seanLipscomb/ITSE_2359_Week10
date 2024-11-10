@@ -16,7 +16,6 @@ void functB(int n){
     functA(n-2); // calls functA, creating indirect recursion
 }
 
-
 int recursiveFunction(int n)
 {
     // output each n to the terminal at each call of the function
@@ -55,9 +54,22 @@ int fact(int n)
 
 }
 
+int fibonacci(int n){
+    if (n <= 1) return n;
+    return fibonacci(n-1) + fibonacci(n-2); // recursive call
+}
+
+void printFib(int terms){
+    for (int i = 0; i<terms; i++)
+    {
+        cout << fibonacci(i) << " ";
+    }
+    cout << endl;
+}
 
 int main()
 {
-    functA(5);
+    cout << "Fibonacci of 9 terms: ";
+    printFib(9);
     return 0;
 }
