@@ -1,71 +1,165 @@
 #include <iostream>
+
+
+
 using namespace std;
- 
-// Constants for the maze dimensions
-const int WIDTH = 7;
-const int HEIGHT = 7;
 
-int startRow = 0;
-int startCol = 0;
-int finishRow = 7;
-int finishCol = 7;
- 
-// Maze representation
-// 0 - Open path
-// 1 - Wall
-// 2 - Part of the solution path
-int maze[HEIGHT][WIDTH] = {
-    {0, 1, 0, 0, 0, 1, 0},
-    {0, 1, 0, 1, 0, 1, 0},
-    {0, 0, 0, 1, 0, 1, 1},
-    {0, 1, 1, 1, 0, 1, 0},
-    {0, 0, 1, 0, 0, 0, 0},
-    {1, 1, 1, 0, 1, 1, 1},
-    {1, 1, 1, 0, 0, 0, 0}
 
-};
- 
-// Function to print the maze with solution path
-void printMaze() {
-    // TODO: Loop through each cell in the maze and print
-    for(int i = 0; i < HEIGHT; i++){
-        for(int r = 0; r < WIDTH; r++){
-            cout << maze[i][r] << " ";
-        }
-        cout << endl;
-    }
-    // '#' for walls, '.' for solution path, and ' ' for open spaces
+
+bool isSafe(int maze[][7], int row, int col, int N) {
+
+  // Check if cell is within maze boundaries and has a valid path
+
+  if(row >= 0 && row < N && col >= 0 && col < N && maze[row][col] == 1){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
- 
-// Recursive function to solve the maze
-bool solveMaze(int x, int y) {
-    // Base case: Check if (x, y) is out of bounds or a wall
-    // TODO: Implement checks for boundaries and walls
-    
-    // Base case: Check if we've reached the end of the maze
-    if()
-    // TODO: Implement check for reaching the goal position
- 
-    // Mark current cell as part of the solution path
-    // TODO: Update the cell to represent part of the path
- 
-    // Recursive calls: Move in each direction (right, left, down, up)
-    // TODO: Call solveMaze recursively for each direction
- 
-    // Backtrack: If no path is found, reset the cell to its original state
-    // TODO: Undo the marking for the path
- 
-    return false; // No solution found from this position
-}
- 
-int main() {
-    // Start the maze solver from the top-left corner
-    if (solveMaze(0, 0)) {
-        cout << "Path found:\n";
-    } else {
-        cout << "No path found.\n";
+
+
+
+bool solveMaze(int maze[][7], int x, int y, int N, int sol[][7]) 
+
+ {
+
+  // If rat reaches the destination (bottom right corner)
+
+  if (x == N - 1 && y == N - 1) {
+
+    sol[x][y] = 2;
+
+    return true;
+
+  }
+
+
+
+  // If current cell is valid, mark it in the solution matrix
+
+  if (isSafe(maze, x, y, N)) {
+
+    sol[x][y] = 2;
+
+
+
+    // Recursively try all possible moves (down, right, up, left)
+
+    if (solveMaze(maze, x + 1, y, N, sol)) 
+
+    { // Down
+
+      return true;
+
     }
-    printMaze();  // Display the maze with the solution path
-    cout << maze[3][3];
-    return 0;
+
+    if (solveMaze(maze, x, y + 1, N, sol)) 
+
+    { 
+
+        // Right
+
+      return true;
+
+    }
+
+    if (x > 0 && solveMaze(maze, x - 1, y, N, sol)) 
+
+    {
+
+         // Up (avoid going out of bounds)
+
+      return true;
+
+    }
+
+    if (y > 0 && solveMaze(maze, x, y - 1, N, sol)) 
+
+    { 
+
+        // Left (avoid going out of bounds)
+
+      return true;
+
+    }
+
+
+
+    // Backtrack if no valid move is found
+
+    sol[x][y] = 0;
+
+  }
+
+
+
+  return false; // No solution found
+
+}
+
+
+
+int main() 
+
+{
+
+  int N = 7; // Size of the maze
+
+  int maze[N][7] = 
+
+  {
+
+    {1, 0, 0, 0, 0, 0, 0},
+
+    {1, 1, 0, 0, 0, 0, 0},
+
+    {0, 1, 1, 0, 0, 0, 0},
+
+    {0, 0, 1, 1, 0, 0, 0},
+
+    {0, 0, 0, 1, 1, 0, 0},
+
+    {0, 0, 0, 0, 1, 1, 0},
+
+    {0, 0, 0, 0, 0, 1, 1}
+
+  };
+
+
+
+  // Solution matrix to store the path
+
+  int sol[N][7] = {0};
+
+
+
+  if (solveMaze(maze, 0, 0, N, sol))
+
+   {
+
+    cout << "Solution found!\n";
+
+    for (int i = 0; i < N; i++) {
+
+      for (int j = 0; j < N; j++) {
+
+        cout << sol[i][j] << " ";
+
+      }
+
+      cout << endl;
+
+    }
+
+  } else {
+
+    cout << "No solution exists.\n";
+
+  }
+
+
+
+  return 0;
+
 }

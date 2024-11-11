@@ -1,1 +1,2 @@
 # ITSE_2359_Week10
+I've been really struggling on this one. Found a way to make it work such that it can solve and display a one-path maze, but if I have any branching paths that lead to dead ends it doesn't really know what to do and seems to try accessing out-of-memory locations. Overall I think I understand recursive functions to a degree but my troubleshooting skills still need some work.
